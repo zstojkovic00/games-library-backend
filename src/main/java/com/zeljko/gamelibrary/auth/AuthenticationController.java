@@ -1,13 +1,14 @@
 package com.zeljko.gamelibrary.auth;
 
 
+import com.zeljko.gamelibrary.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -29,5 +30,22 @@ public class AuthenticationController {
     ){
         return ResponseEntity.ok(service.authenticate(request));
     }
+
+
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return service.getAllUsers();
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable("id") int id){
+        return service.getUserById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserById(@PathVariable("id") int id) {
+        service.deleteUserById(id);
+    }
+
 
 }

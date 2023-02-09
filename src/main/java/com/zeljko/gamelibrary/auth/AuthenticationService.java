@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -45,4 +48,21 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
 
     }
+
+    public void deleteUserById(int id){
+        repository.deleteById(id);
+
+    }
+
+    public List<User> getAllUsers(){
+        List<User> users = new ArrayList<User>();
+        repository.findAll().forEach(user -> users.add(user));
+        return users;
+    }
+
+    public User getUserById(int id) {
+        return repository.findById(id).get();
+    }
+
+
 }
