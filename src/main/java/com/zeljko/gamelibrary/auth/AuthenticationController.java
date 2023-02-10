@@ -6,7 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -45,6 +49,14 @@ public class AuthenticationController {
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable("id") int id) {
         service.deleteUserById(id);
+    }
+
+
+    @RequestMapping("/currentUserInfo")
+    public Map<String, Object> home(Principal principal) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("email",principal.getName());
+        return model;
     }
 
 

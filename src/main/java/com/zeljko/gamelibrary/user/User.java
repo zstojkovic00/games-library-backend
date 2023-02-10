@@ -1,6 +1,7 @@
 package com.zeljko.gamelibrary.user;
 
 
+import com.zeljko.gamelibrary.game.Game;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -20,8 +20,10 @@ import java.util.List;
 @Entity
 @Table(name ="user")
 public class User implements UserDetails {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    // user_id
     private Integer id;
     private String firstname;
     private String lastname;
@@ -31,6 +33,11 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Game> games = new HashSet<>();
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
