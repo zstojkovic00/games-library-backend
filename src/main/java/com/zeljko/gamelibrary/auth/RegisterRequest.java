@@ -1,5 +1,6 @@
 package com.zeljko.gamelibrary.auth;
 
+import com.zeljko.gamelibrary.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -26,4 +26,6 @@ public class Game {
 
     @ManyToOne
     private User user;
+
+
 }
