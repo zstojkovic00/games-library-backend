@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.gameTest;
+package com.zeljko.gamelibrary.config;
 
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class GameTestConfiguration {
+public class GameConfiguration {
 
 
     @Bean

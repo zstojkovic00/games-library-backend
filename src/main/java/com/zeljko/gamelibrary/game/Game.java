@@ -1,6 +1,8 @@
 package com.zeljko.gamelibrary.game;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zeljko.gamelibrary.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,20 +14,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name ="user_games")
+@Table(name ="games")
 public class Game {
 
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Integer id;
-    private String photo;
+    @Column(unique = true)
+    private Long id;
     private String name;
-
 
     @ManyToOne
     private User user;
+
+
+
 
 
 }

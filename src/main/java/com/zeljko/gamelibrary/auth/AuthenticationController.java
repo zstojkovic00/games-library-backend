@@ -1,10 +1,8 @@
 package com.zeljko.gamelibrary.auth;
 
 
-import com.zeljko.gamelibrary.game.Game;
-import com.zeljko.gamelibrary.game.GameRepository;
+
 import com.zeljko.gamelibrary.user.User;
-import com.zeljko.gamelibrary.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +19,6 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    private final GameRepository gameRepository;
-    private final UserRepository userRepository;
 
 
     @PostMapping("/register")
@@ -64,17 +60,17 @@ public class AuthenticationController {
     }
 
 
-    @PutMapping("/{gameId}/users/{userId}")
-    User addGameToUser(
-            @PathVariable int gameId,
-            @PathVariable int userId
-    ){
-        User user = userRepository.findById(userId).get();
-        Game game = gameRepository.findById(gameId).get();
-        user.addGameToUser(game);
-
-        return userRepository.save(user);
-    }
+//    @PutMapping("/{gameId}/users/{userId}")
+//    User addGameToUser(
+//            @PathVariable int gameId,
+//            @PathVariable int userId
+//    ){
+//        User user = userRepository.findById(userId).get();
+//        Game game = gameRepository.findById(gameId).get();
+//        user.addGameToUser(game);
+//
+//        return userRepository.save(user);
+//    }
 
 
 

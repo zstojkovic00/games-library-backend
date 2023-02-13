@@ -35,8 +35,18 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")
     private Set<Game> games = new HashSet<>();
+
+
+    public void addGameToUser(Game game) {
+        games.add(game);
+    }
+
+    public void removeGame(Game game){
+        games.remove(game);
+    }
 
 
 
@@ -76,7 +86,5 @@ public class User implements UserDetails {
         return password;
     }
 
-    public void addGameToUser(Game game) {
-        games.add(game);
-    }
+
 }
