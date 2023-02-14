@@ -42,11 +42,13 @@ public class User implements UserDetails {
     inverseJoinColumns = {
             @JoinColumn(name="games_id", referencedColumnName = "id")
     })
-    private Set<Game> games = new HashSet<>();
+
+    private Set<Game> games = new HashSet<Game>();
 
 
     public Set<Game> addGameToUser(Game game) {
-        games.add(game);
+        this.games.add(game);
+
         return games;
     }
 

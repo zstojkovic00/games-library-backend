@@ -3,13 +3,11 @@ package com.zeljko.gamelibrary.controller;
 
 import com.zeljko.gamelibrary.service.GameService;
 import com.zeljko.gamelibrary.model.Game;
-import com.zeljko.gamelibrary.model.User;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -43,19 +41,9 @@ public class GameController {
 
     }
 
-    @PutMapping("/getGame/{gameId}/user")
-    User addGameToUser(
-            @PathVariable("gameId") Long gameId,
-            Principal principal
-    ){
-        Game response = gameService.getGameById(gameId);
-        gameRepository.save(response);
-        Game game = gameRepository.findById(gameId).get();
-        User user = userRepository.findByEmail(principal.getName()).get();
-        user.addGameToUser(game);
-        return user;
 
-    }
+
+
 
 
 
