@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.auth;
+package com.zeljko.gamelibrary.requests;
 
 
 import lombok.AllArgsConstructor;

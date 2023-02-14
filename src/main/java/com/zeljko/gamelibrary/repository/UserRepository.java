@@ -1,5 +1,6 @@
-package com.zeljko.gamelibrary.user;
+package com.zeljko.gamelibrary.repository;
 
+import com.zeljko.gamelibrary.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

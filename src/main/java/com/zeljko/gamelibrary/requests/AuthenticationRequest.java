@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.auth;
+package com.zeljko.gamelibrary.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String firstname;
-    private String lastname;
+public class AuthenticationRequest {
     private String email;
-    private String password;
+    String password;
 }

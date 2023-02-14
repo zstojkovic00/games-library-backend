@@ -1,8 +1,12 @@
-package com.zeljko.gamelibrary.auth;
+package com.zeljko.gamelibrary.controller;
 
 
 
-import com.zeljko.gamelibrary.user.User;
+import com.zeljko.gamelibrary.requests.AuthenticationRequest;
+import com.zeljko.gamelibrary.requests.AuthenticationResponse;
+import com.zeljko.gamelibrary.service.AuthenticationService;
+import com.zeljko.gamelibrary.requests.RegisterRequest;
+import com.zeljko.gamelibrary.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

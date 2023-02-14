@@ -1,10 +1,13 @@
-package com.zeljko.gamelibrary.auth;
+package com.zeljko.gamelibrary.service;
 
 
+import com.zeljko.gamelibrary.requests.AuthenticationRequest;
+import com.zeljko.gamelibrary.requests.AuthenticationResponse;
+import com.zeljko.gamelibrary.requests.RegisterRequest;
 import com.zeljko.gamelibrary.config.JwtService;
-import com.zeljko.gamelibrary.user.Role;
-import com.zeljko.gamelibrary.user.User;
-import com.zeljko.gamelibrary.user.UserRepository;
+import com.zeljko.gamelibrary.model.Role;
+import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

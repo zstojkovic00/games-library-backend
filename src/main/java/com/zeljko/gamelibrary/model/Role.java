@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.user;
+package com.zeljko.gamelibrary.model;
 
 public enum Role {
     USER,

@@ -1,7 +1,7 @@
 package com.zeljko.gamelibrary.config;
 
 
-import com.zeljko.gamelibrary.user.UserRepository;
+import com.zeljko.gamelibrary.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

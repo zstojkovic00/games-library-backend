@@ -1,6 +1,7 @@
-package com.zeljko.gamelibrary.game;
+package com.zeljko.gamelibrary.service;
 
 
+import com.zeljko.gamelibrary.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

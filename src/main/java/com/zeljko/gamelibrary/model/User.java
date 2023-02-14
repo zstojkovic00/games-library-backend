@@ -1,19 +1,16 @@
-package com.zeljko.gamelibrary.user;
+package com.zeljko.gamelibrary.model;
 
 
-import com.zeljko.gamelibrary.game.Game;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,13 +32,22 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_games_table",
+    joinColumns = {
+            @JoinColumn(name="user_id", referencedColumnName = "id")
+    },
+    inverseJoinColumns = {
+            @JoinColumn(name="games_id", referencedColumnName = "id")
+    })
     private Set<Game> games = new HashSet<>();
 
 
-    public void addGameToUser(Game game) {
+    public Set<Game> addGameToUser(Game game) {
         games.add(game);
+        return games;
     }
 
     public void removeGame(Game game){

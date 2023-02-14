@@ -1,8 +1,11 @@
-package com.zeljko.gamelibrary.game;
+package com.zeljko.gamelibrary.controller;
 
 
-import com.zeljko.gamelibrary.user.User;
-import com.zeljko.gamelibrary.user.UserRepository;
+import com.zeljko.gamelibrary.service.GameService;
+import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.repository.GameRepository;
+import com.zeljko.gamelibrary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +53,7 @@ public class GameController {
         Game game = gameRepository.findById(gameId).get();
         User user = userRepository.findByEmail(principal.getName()).get();
         user.addGameToUser(game);
-
-        return userRepository.save(user);
+        return user;
 
     }
 
