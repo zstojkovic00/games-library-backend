@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +32,10 @@ public class Game {
     @JsonIgnore
     @ManyToMany(mappedBy = "games", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> userSet = new HashSet<User>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "added_at")
+    private Date addedAt;
 
 
 

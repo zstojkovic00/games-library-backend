@@ -66,6 +66,7 @@ public class UserController {
             @PathVariable("gameId") Long gameId,
             Principal principal
     ) {
+
         return userService.addGameToUser(gameId, principal);
 
     }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class UserService {
         gameRepository.save(response);
         Game game = gameRepository.findById(gameId).get();
         User user = userRepository.findByEmail(principal.getName()).get();
-
+        game.setAddedAt(new Date());
         gameSet = user.getGames();
         gameSet.add(game);
         user.setGames(gameSet);
