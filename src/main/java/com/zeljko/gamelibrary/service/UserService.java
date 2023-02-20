@@ -62,4 +62,15 @@ public class UserService {
 
         return user;
     }
+
+    public List<Game> getCurrentUserGames(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).get();
+
+        List <Game> games = user.getGames().stream().toList();
+
+        return games;
+
+
+
+    }
 }

@@ -26,6 +26,8 @@ public class Game {
     @Column(unique = true)
     private Long id;
     private String name;
+    private String background_image;
+    private Long playtime;
     @JsonIgnore
     @ManyToMany(mappedBy = "games", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> userSet = new HashSet<User>();

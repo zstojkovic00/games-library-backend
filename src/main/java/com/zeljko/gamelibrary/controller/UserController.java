@@ -1,6 +1,7 @@
 package com.zeljko.gamelibrary.controller;
 
 
+import com.zeljko.gamelibrary.model.Game;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.requests.AuthenticationRequest;
@@ -73,6 +74,16 @@ public class UserController {
     User getCurrentUser(Principal principal){
         return  userService.getCurrentUser(principal);
     }
+
+
+    @GetMapping("/getCurrentUserGames")
+    public List<Game> getCurrentUserGames(Principal principal){
+
+      return userService.getCurrentUserGames(principal);
+
+    }
+
+
 
 
 }
