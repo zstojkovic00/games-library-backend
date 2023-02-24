@@ -7,16 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
@@ -29,6 +26,26 @@ public class Game {
     private String name;
     private String background_image;
     private Long playtime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "released")
+    private Date released;
+    private float rating;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "games_genres_table",
+            joinColumns = {
+                    @JoinColumn(name="game_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name="genre_id", referencedColumnName = "id")
+            })
+
+    private Set<Genre> genres = new HashSet<Genre>();
+
+
+
     @JsonIgnore
     @ManyToMany(mappedBy = "games", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> userSet = new HashSet<User>();
@@ -42,3 +59,6 @@ public class Game {
 
 
 }
+
+
+

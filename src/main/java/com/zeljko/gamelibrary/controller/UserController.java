@@ -71,6 +71,16 @@ public class UserController {
 
     }
 
+    @DeleteMapping("/deleteGame/{gameId}/user")
+    User removeGameFromCurrentUser(
+            @PathVariable("gameId") Long gameId,
+            Principal principal
+    ) {
+
+        return userService.removeGameFromCurrentUser(gameId, principal);
+
+    }
+
     @GetMapping("/getCurrentUser")
     User getCurrentUser(Principal principal){
         return  userService.getCurrentUser(principal);

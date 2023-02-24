@@ -74,4 +74,16 @@ public class UserService {
 
 
     }
+
+    public User removeGameFromCurrentUser(Long gameId, Principal principal) {
+
+        User user = userRepository.findByEmail(principal.getName()).get();
+        Set<Game> gameSet = user.getGames();
+        Game gameToRemove = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));
+        gameSet.remove(gameToRemove);
+        user.setGames(gameSet);
+        userRepository.save(user);
+        return user;
+
+    }
 }
