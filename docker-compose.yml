@@ -1,0 +1,31 @@
+services:
+  mysql:
+    container_name: mysqldb
+    image: mysql
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: user_security
+      MYSQL_USER: zeljko
+      MYSQL_PASSWORD: zeljkoo123
+      MYSQL_ROOT_PASSWORD: zeljkoo123
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - spring-boot-network
+
+  spring-boot-app:
+    container_name: game-library
+    image: game-library
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-boot-network
+
+volumes:
+  mysql-data:
+
+networks:
+  spring-boot-network:
+    driver: bridge
