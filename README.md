@@ -45,7 +45,7 @@ Project is created with:
 
 
 * REST CRUD API: A comprehensive REST API is provided for managing user and game entities. The API is built using Spring Data JPA and Hibernate, enabling seamless interaction with the underlying database.
- 
+
 
 * Game Tracking: Once logged in, users can search for and add games they have played to their profile. The application keeps track of the games a user has completed.
 
@@ -65,7 +65,7 @@ This project consists of a frontend and a backend, both of which need to be clon
 
 To run this project using Docker, make sure you have Docker and Docker Compose installed on your system. Then follow these steps:
 
-Clone this repository:
+Clone these repositories:
 
 ``` 
 $ git clone https://github.com/zstojkovic00/games-library-backend.git
@@ -77,9 +77,9 @@ Run the following command to start the application containers:
 ```
 $ docker-compose up
 ```
-
 ## Backend
 ```
+$ mvn clean package
 $ docker build -t game-library .
 $ docker-compose up
 ```
