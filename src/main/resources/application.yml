@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: docker
+  datasource:
+    url: jdbc:mysql://mysqldb:3306/user_security
+    username: zeljko
+    password: zeljkoo123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+       hibernate:
+         format_sql: true
+       database: mysql
+       database-platform: org.hibernate.dialect.MySQL8Dialect
