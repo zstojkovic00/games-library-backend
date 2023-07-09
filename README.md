@@ -19,12 +19,12 @@ This project is made for learning purposes  and because I wanted to keep the mem
 
 ## Technologies
 Project is created with:
-* Java: 17
-* Spring: Boot 3.0.2
-* Hibernate: 6.1.6
-* React.js: 18.2.0
-* Redux: 8.0.5
-* MySQL Database : 8.0.32
+* Java
+* Spring Boot
+* Hibernate
+* React.js
+* Redux
+* MySQL Database
 
 <br/>
 
@@ -38,31 +38,54 @@ Project is created with:
 
 
 ## Features
-* Authentication and Authorization created with spring security 6.0 - JWT
-* Adding game from external API and storing it to a local database
-* Created REST CRUD API for User and Game Entity (Spring Data JPA, Hibernate)
-* Search so you can find whatever game you like
-* Pagination is used to divide a document into pages
+* Authentication and Authorization: The project implements authentication and authorization using Spring Security 6.0 with JWT (JSON Web Token) for secure user access and protection of sensitive endpoints.
+
+
+* External API Integration: The application integrates with an external API to retrieve game data. The fetched game information is then stored in a local database for further processing.
+
+
+* REST CRUD API: A comprehensive REST API is provided for managing user and game entities. The API is built using Spring Data JPA and Hibernate, enabling seamless interaction with the underlying database.
+ 
+
+* Game Tracking: Once logged in, users can search for and add games they have played to their profile. The application keeps track of the games a user has completed.
+
+
+* Time Tracking: The application records the average playtime for each game. Users can view the cumulative time they have spent playing games, providing an insight into how much of their life they have dedicated to gaming.
+
+
+* Search Functionality: The project includes a search feature that allows users to find games based on their preferences. Users can search for games by various criteria, such as title, genre, or platform.
+
+
+* Pagination: To enhance the user experience and optimize performance, pagination is implemented to divide large sets of data into smaller, more manageable pages.
 
 
 
 ## Setup
-To run this project, you need to download both game-library-frontend and game-library-backend files from my GitHub:
+This project consists of a frontend and a backend, both of which need to be cloned and set up individually.
 
-Requirements:
-Java JDK 17, npm, node.js and MySQL with a database named 'user_security'
+To run this project using Docker, make sure you have Docker and Docker Compose installed on your system. Then follow these steps:
+
+Clone this repository:
+
+``` 
+$ git clone https://github.com/zstojkovic00/games-library-backend.git
+$ git clone https://github.com/zstojkovic00/games-library-frontend.git
+```
+
+Run the following command to start the application containers:
+## Frontend
+```
+$ docker-compose up
+```
+
+## Backend
+```
+$ docker build -t game-library .
+$ docker-compose up
+```
 
 
-Frontend:
-```
-$ npm install
-$ npm start
-```
-
-Backend:
-```
-mvn spring-boot:run 
-```
+This command will build the required images and start the containers based on the provided Docker Compose configuration file.
 
 ## Acknowledgement
 
