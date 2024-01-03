@@ -20,7 +20,6 @@ import java.util.Set;
 public class GameServiceImpl implements GameService {
 
     private final RestTemplate restTemplate;
-    private final GameService gameService;
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
 
@@ -46,7 +45,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public void addGameToUser(Long gameId, Principal principal) {
         Set<Game> gameSet;
-        Game response = gameService.getGameById(gameId);
+        Game response = getGameById(gameId);
         gameRepository.save(response);
         Game game = gameRepository.findById(gameId).get();
         User user = userRepository.findByEmail(principal.getName()).get();
