@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/game")
+@RequestMapping("/api/v1/games")
 @RequiredArgsConstructor
 public class GameController {
 
     private final GameService gameService;
     private final GameRepository gameRepository;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<Game> getAllGames() {
         return gameService.getAllGames();
     }
@@ -31,7 +31,7 @@ public class GameController {
         return ResponseEntity.ok(gameRepository.save(response));
     }
 
-    @GetMapping("/all/current-user")
+    @GetMapping("/current-user")
     public List<Game> getCurrentUserGames(Authentication principal) {
         return gameService.getCurrentUserGames(principal);
     }
