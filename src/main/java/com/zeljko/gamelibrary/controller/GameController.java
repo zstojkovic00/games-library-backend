@@ -4,50 +4,48 @@ package com.zeljko.gamelibrary.controller;
 import com.zeljko.gamelibrary.model.Game;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/game")
+@RequiredArgsConstructor
 public class GameController {
 
-    @Autowired
-    private GameService gameService;
+    private final GameService gameService;
+    private final GameRepository gameRepository;
 
-    @Autowired
-    private GameRepository gameRepository;
+    @GetMapping("/all")
+    public List<Game> getAllGames() {
+        return gameService.getAllGames();
+    }
 
-
-    @GetMapping("/getGame/{gameId}")
-    public Game SaveGameToRepositoryById(@PathVariable("gameId") Long gameId){
+    @GetMapping("/{gameId}")
+    public Game SaveGameToRepositoryById(@PathVariable("gameId") Long gameId) {
         Game response = gameService.getGameById(gameId);
-
         return gameRepository.save(response);
-
     }
 
-    @GetMapping("/getAllGames")
-    public List<Game> getAllGames(){
-
-        return gameRepository.findAll();
-
+    @GetMapping("/all/current-user")
+    public List<Game> getCurrentUserGames(Principal principal) {
+        return gameService.getCurrentUserGames(principal);
     }
 
+    @PutMapping("/{gameId}/current-user")
+    ResponseEntity<String> addGameToUser(@PathVariable("gameId") Long gameId, Principal principal) {
+        gameService.addGameToUser(gameId, principal);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Game is successfully added.");
+    }
 
-
-
-
-
-
-
-
-
-
-
+    @DeleteMapping("/{gameId}/current-user")
+    ResponseEntity<String> removeGameFromCurrentUser(@PathVariable("gameId") Long gameId, Principal principal) {
+        gameService.removeGameFromCurrentUser(gameId, principal);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Game is successfully deleted.");
+    }
 
 }

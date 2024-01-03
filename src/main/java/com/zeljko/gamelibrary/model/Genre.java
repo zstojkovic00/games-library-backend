@@ -18,16 +18,14 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name ="genres")
+@Table(name = "genres")
 public class Genre {
 
     @Id
     private long id;
     private String name;
 
-
     @JsonIgnore
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Game> gameSet = new HashSet<Game>();
-
+    private Set<Game> gameSet = new HashSet<>();
 }

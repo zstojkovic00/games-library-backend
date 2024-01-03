@@ -17,7 +17,7 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name ="games")
+@Table(name = "games")
 public class Game {
 
     @Id
@@ -36,15 +36,13 @@ public class Game {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "games_genres_table",
             joinColumns = {
-                    @JoinColumn(name="game_id", referencedColumnName = "id")
+                    @JoinColumn(name = "game_id", referencedColumnName = "id")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name="genre_id", referencedColumnName = "id")
+                    @JoinColumn(name = "genre_id", referencedColumnName = "id")
             })
 
     private Set<Genre> genres = new HashSet<Genre>();
-
-
 
     @JsonIgnore
     @ManyToMany(mappedBy = "games", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -53,10 +51,6 @@ public class Game {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "added_at")
     private Date addedAt;
-
-
-
-
 
 }
 

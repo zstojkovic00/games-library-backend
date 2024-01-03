@@ -18,7 +18,6 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-
     private static final String SECRET_KEY = "gs6X3ofgpcREy4RzUzgcrX8W0/qzNugi5pzzTHH5YBXfxsx4LxUPji6GSuRmFBtw";
 
     public String extractUsername(String token) {
@@ -30,18 +29,16 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
 
-
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpaired(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpaired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -62,8 +59,6 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
-
 
     private Claims extracAllClaims(String token){
         return Jwts

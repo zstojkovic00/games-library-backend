@@ -15,12 +15,11 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name ="user")
+@Table(name = "user")
 public class User implements UserDetails {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    // user_id
     private Integer id;
     private String firstname;
     private String lastname;
@@ -28,35 +27,19 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_games_table",
-    joinColumns = {
-            @JoinColumn(name="user_id", referencedColumnName = "id")
-    },
-    inverseJoinColumns = {
-            @JoinColumn(name="games_id", referencedColumnName = "id")
-    })
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "games_id", referencedColumnName = "id")
+            })
 
     private Set<Game> games = new HashSet<Game>();
-
-
-    public Set<Game> addGameToUser(Game game) {
-        this.games.add(game);
-
-        return games;
-    }
-
-    public void removeGame(Game game){
-        games.remove(game);
-    }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -90,9 +73,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
-
 
 }
