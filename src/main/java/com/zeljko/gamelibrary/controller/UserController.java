@@ -1,13 +1,12 @@
 package com.zeljko.gamelibrary.controller;
 
 
-import com.zeljko.gamelibrary.model.Game;
 import com.zeljko.gamelibrary.model.User;
-import com.zeljko.gamelibrary.service.impl.UserServiceImpl;
+import com.zeljko.gamelibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -16,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping("/all")
     public List<User> getAllUsers() {
@@ -34,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    User getCurrentUser(Principal principal) {
+    User getCurrentUser(Authentication principal) {
         return userService.getCurrentUser(principal);
     }
 }

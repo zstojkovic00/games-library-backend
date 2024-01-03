@@ -7,10 +7,10 @@ import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.GameService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -30,20 +30,18 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Game getGameById(Long userId) {
-        Game result = restTemplate.getForObject("https://api.rawg.io/api/games/" + userId + "?key=bac66ee8265d4894b6534d314dcc726a", Game.class);
-        System.out.println(result);
-        return result;
+        return restTemplate.getForObject("https://api.rawg.io/api/games/" + userId + "?key=bac66ee8265d4894b6534d314dcc726a", Game.class);
     }
 
     @Override
-    public List<Game> getCurrentUserGames(Principal principal) {
+    public List<Game> getCurrentUserGames(Authentication principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
         return user.getGames().stream().toList();
     }
 
 
     @Override
-    public void addGameToUser(Long gameId, Principal principal) {
+    public void addGameToUser(Long gameId, Authentication principal) {
         Set<Game> gameSet;
         Game response = getGameById(gameId);
         gameRepository.save(response);
@@ -57,7 +55,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void removeGameFromCurrentUser(Long gameId, Principal principal) {
+    public void removeGameFromCurrentUser(Long gameId, Authentication principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
         Set<Game> gameSet = user.getGames();
         Game gameToRemove = gameRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found"));

@@ -5,6 +5,7 @@ import com.zeljko.gamelibrary.model.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getCurrentUser(Principal principal) {
+    public User getCurrentUser(Authentication principal) {
         return userRepository.findByEmail(principal.getName()).get();
     }
 
