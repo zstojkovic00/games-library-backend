@@ -39,7 +39,7 @@ public class User implements UserDetails {
                     @JoinColumn(name = "games_id", referencedColumnName = "id")
             })
 
-    private Set<Game> games = new HashSet<Game>();
+    private Set<Game> games = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

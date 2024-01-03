@@ -26,7 +26,7 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    public ResponseEntity<Game> SaveGameToRepositoryById(@PathVariable("gameId") Long gameId) {
+    public ResponseEntity<Game> saveGameToRepositoryById(@PathVariable("gameId") Long gameId) {
         Game response = gameService.getGameById(gameId);
         return ResponseEntity.ok(gameRepository.save(response));
     }

@@ -1,15 +1,15 @@
 package com.zeljko.gamelibrary.service;
 
-import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.dto.UserDTO;
 import org.springframework.security.core.Authentication;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    List<User> getAllUsers();
-    User getUserById(int id);
+    List<UserDTO> getAllUsers();
+    Optional<UserDTO> getUserById(int id);
     void deleteUserById(int id);
-    User getCurrentUser(Authentication principal);
+    UserDTO getCurrentUser(Authentication principal);
 }
