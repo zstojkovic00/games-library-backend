@@ -42,11 +42,11 @@ public class Game {
                     @JoinColumn(name = "genre_id", referencedColumnName = "id")
             })
 
-    private Set<Genre> genres = new HashSet<Genre>();
+    private Set<Genre> genres = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "games", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<User> userSet = new HashSet<User>();
+    private Set<User> userSet = new HashSet<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "added_at")

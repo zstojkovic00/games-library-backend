@@ -20,7 +20,7 @@ public class GameController {
     private final GameService gameService;
     private final GameRepository gameRepository;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Game> getAllGames() {
         return gameService.getAllGames();
     }
