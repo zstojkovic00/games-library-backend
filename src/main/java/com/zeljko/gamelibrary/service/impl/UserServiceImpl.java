@@ -2,6 +2,7 @@ package com.zeljko.gamelibrary.service.impl;
 
 
 import com.zeljko.gamelibrary.dto.UserDTO;
+import com.zeljko.gamelibrary.exception.custom.UserNotFoundException;
 import com.zeljko.gamelibrary.model.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.UserService;
@@ -38,7 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getCurrentUser(Authentication principal) {
-        return userRepository.findByEmail(principal.getName()).map(UserServiceImpl::convertUserToDTO).get();
+        return userRepository.findByEmail(principal.getName())
+                .map(UserServiceImpl::convertUserToDTO)
+                .orElseThrow(() -> new UserNotFoundException("Current user not found"));
     }
 
     public static UserDTO convertUserToDTO(User user) {
