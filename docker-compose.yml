@@ -22,6 +22,8 @@ services:
       - "8080:8080"
     networks:
       - spring-boot-network
+    depends_on:
+      - mysql
 
 volumes:
   mysql-data:
