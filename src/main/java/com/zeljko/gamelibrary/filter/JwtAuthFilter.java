@@ -1,5 +1,6 @@
-package com.zeljko.gamelibrary.config;
+package com.zeljko.gamelibrary.filter;
 
+import com.zeljko.gamelibrary.service.impl.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

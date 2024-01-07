@@ -4,7 +4,6 @@ package com.zeljko.gamelibrary.service.impl;
 import com.zeljko.gamelibrary.requests.AuthRequest;
 import com.zeljko.gamelibrary.requests.AuthResponse;
 import com.zeljko.gamelibrary.requests.RegisterRequest;
-import com.zeljko.gamelibrary.config.JwtService;
 import com.zeljko.gamelibrary.model.Role;
 import com.zeljko.gamelibrary.model.User;
 import com.zeljko.gamelibrary.repository.UserRepository;

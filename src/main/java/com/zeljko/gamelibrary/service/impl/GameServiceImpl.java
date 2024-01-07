@@ -7,9 +7,11 @@ import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.GameService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.util.Date;
 import java.util.List;
@@ -17,20 +19,30 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GameServiceImpl implements GameService {
 
-    private final RestTemplate restTemplate;
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
+    private final RestClient restClient;
 
+    @Value("${rawg.api.key}")
+    private String apiKey;
     @Override
     public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
     @Override
-    public Game getGameById(Long userId) {
-        return restTemplate.getForObject("https://api.rawg.io/api/games/" + userId + "?key=bac66ee8265d4894b6534d314dcc726a", Game.class);
+    public Game getGameById(Long gameId) {
+
+        String uriString = "https://api.rawg.io/api/games/" + gameId + "?key=" + apiKey;
+        log.info("Request URI: {}", uriString);
+
+        return restClient.get()
+                .uri(uriString)
+                .retrieve()
+                .body(Game.class);
     }
 
     @Override
@@ -38,7 +50,6 @@ public class GameServiceImpl implements GameService {
         User user = userRepository.findByEmail(principal.getName()).get();
         return user.getGames().stream().toList();
     }
-
 
     @Override
     public void addGameToUser(Long gameId, Authentication principal) {

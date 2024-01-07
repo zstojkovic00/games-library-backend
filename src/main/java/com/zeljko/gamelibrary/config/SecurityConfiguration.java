@@ -1,6 +1,7 @@
 package com.zeljko.gamelibrary.config;
 
 
+import com.zeljko.gamelibrary.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,7 @@ public class SecurityConfiguration {
 
             return http.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/api/v1/auth/**")
+                            .requestMatchers("/api/v1/**")
                                     .permitAll()
                                     .anyRequest()
                                     .authenticated())

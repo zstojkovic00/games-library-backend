@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.config;
+package com.zeljko.gamelibrary.service.impl;
 
 
 import io.jsonwebtoken.Claims;
