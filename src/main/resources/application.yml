@@ -1,11 +1,11 @@
 spring:
-  docker:
-    compose:
-      enabled: true
-      file: docker-compose.yml
+#  docker:
+#    compose:
+#      enabled: true
+#      file: docker-compose.yml
   datasource:
-    url: jdbc:mysql://mysqldb:3306/user_security
-    username: zeljko
+    url: jdbc:mysql://localhost:3306/user_security
+    username: root
     password: zeljkoo123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -16,4 +16,8 @@ spring:
        database-platform: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8080
+
+rawg:
+  api:
+    key: {rawgApiKey}
 
