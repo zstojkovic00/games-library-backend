@@ -17,9 +17,6 @@ services:
 
   spring-boot-app:
     container_name: game-library
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: game-library
     ports:
       - "8081:8080"
