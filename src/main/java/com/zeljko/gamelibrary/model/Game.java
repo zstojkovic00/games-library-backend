@@ -1,6 +1,7 @@
 package com.zeljko.gamelibrary.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -29,6 +30,7 @@ public class Game {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "released")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date released;
     private float rating;
 
@@ -50,6 +52,7 @@ public class Game {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "added_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date addedAt;
 
 }

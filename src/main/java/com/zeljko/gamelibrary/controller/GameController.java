@@ -26,9 +26,15 @@ public class GameController {
     }
 
     @GetMapping("/{gameId}")
-    public ResponseEntity<Game> saveGameToRepositoryById(@PathVariable("gameId") Long gameId) {
+    public ResponseEntity<Game> getGameById(@PathVariable("gameId") Long gameId) {
         Game response = gameService.getGameById(gameId);
         return ResponseEntity.ok(gameRepository.save(response));
+    }
+
+    @GetMapping("/slug/{gameSlug}")
+    public ResponseEntity<List<Game>> getGamesBySlug(@PathVariable("gameSlug") String gameSlug){
+        List<Game> gameListResponse = gameService.getGamesBySlug(gameSlug);
+        return ResponseEntity.ok(gameListResponse);
     }
 
     @GetMapping("/current-user")
@@ -36,16 +42,16 @@ public class GameController {
         return gameService.getCurrentUserGames(principal);
     }
 
-    @PutMapping("/{gameId}/current-user")
+    @PatchMapping("/{gameId}/current-user")
     ResponseEntity<String> addGameToUser(@PathVariable("gameId") Long gameId, Authentication principal) {
         gameService.addGameToUser(gameId, principal);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Game is successfully added.");
+        return ResponseEntity.status(HttpStatus.OK).body("Game is successfully added.");
     }
 
     @DeleteMapping("/{gameId}/current-user")
     ResponseEntity<String> removeGameFromCurrentUser(@PathVariable("gameId") Long gameId, Authentication principal) {
         gameService.removeGameFromCurrentUser(gameId, principal);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Game is successfully deleted.");
+        return ResponseEntity.status(HttpStatus.OK).body("Game is successfully deleted.");
     }
 
 }
