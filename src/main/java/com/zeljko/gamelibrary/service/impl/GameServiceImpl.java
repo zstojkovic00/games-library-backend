@@ -2,7 +2,7 @@ package com.zeljko.gamelibrary.service.impl;
 
 
 import com.zeljko.gamelibrary.model.Game;
-import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.GameService;

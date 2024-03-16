@@ -1,10 +1,10 @@
-package com.zeljko.gamelibrary.model;
+package com.zeljko.gamelibrary.model.UserCredentials;
 
 
+import com.zeljko.gamelibrary.model.Game;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
+    public String getPassword(){
         return password;
     }
 

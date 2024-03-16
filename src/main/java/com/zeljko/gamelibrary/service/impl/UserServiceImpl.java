@@ -3,7 +3,7 @@ package com.zeljko.gamelibrary.service.impl;
 
 import com.zeljko.gamelibrary.dto.UserDTO;
 import com.zeljko.gamelibrary.exception.custom.UserNotFoundException;
-import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +27,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> getUserById(int id) {
-        return userRepository.findById(id).map(UserServiceImpl::convertUserToDTO);
+    public UserDTO getUserById(int id) {
+        return userRepository.findById(id)
+                .map(UserServiceImpl::convertUserToDTO)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.aspect;
+package com.zeljko.gamelibrary.config.aspect;
 
 
 import lombok.extern.slf4j.Slf4j;

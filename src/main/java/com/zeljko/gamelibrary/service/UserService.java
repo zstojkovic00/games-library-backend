@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserService {
 
     List<UserDTO> getAllUsers();
-    Optional<UserDTO> getUserById(int id);
+    UserDTO getUserById(int id);
     void deleteUserById(int id);
     UserDTO getCurrentUser(Authentication principal);
 }

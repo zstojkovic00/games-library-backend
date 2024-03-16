@@ -2,6 +2,9 @@ package com.zeljko.gamelibrary.dto;
 
 
 import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.UserCredentials.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +22,6 @@ public class UserDTO {
     private String lastname;
     private String email;
     private Set<Game> games;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

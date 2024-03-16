@@ -7,7 +7,7 @@ spring:
   jpa:
     hibernate:
       format_sql: true
-      ddl-auto: update
+      ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
 server:
@@ -17,4 +17,9 @@ rawg:
   api:
     base: https://api.rawg.io/api/games
     key: bac66ee8265d4894b6534d314dcc726a
+
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration: 60000 #minute
+  refresh-token-expiration: 86400000 #1day
 

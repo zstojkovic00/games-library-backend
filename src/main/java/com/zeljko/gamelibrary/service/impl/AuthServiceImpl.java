@@ -1,18 +1,24 @@
 package com.zeljko.gamelibrary.service.impl;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeljko.gamelibrary.requests.AuthRequest;
-import com.zeljko.gamelibrary.requests.AuthResponse;
+import com.zeljko.gamelibrary.requests.RefreshTokenRequest;
+import com.zeljko.gamelibrary.response.AuthResponse;
 import com.zeljko.gamelibrary.requests.RegisterRequest;
-import com.zeljko.gamelibrary.model.Role;
-import com.zeljko.gamelibrary.model.User;
+import com.zeljko.gamelibrary.model.UserCredentials.Role;
+import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
+import com.zeljko.gamelibrary.response.RefreshTokenResponse;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
+
+import java.util.HashMap;
 
 
 @Service
@@ -38,7 +44,12 @@ public class AuthServiceImpl implements AuthService {
         repository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
-        return AuthResponse.builder().token(jwtToken).build();
+        var refreshToken = jwtService.generateRefreshToken(user);
+
+        return AuthResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     @Override
@@ -51,7 +62,45 @@ public class AuthServiceImpl implements AuthService {
         );
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthResponse.builder().token(jwtToken).build();
+        var refreshToken = jwtService.generateRefreshToken(user);
+
+        return AuthResponse.
+                builder().
+                accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
 
     }
+
+    @Override
+    public AuthResponse refreshToken(RefreshTokenRequest request) {
+        String newAccessToken = null;
+        String newRefreshToken = null;
+
+        if (request == null || request.refreshToken().isEmpty()) {
+            throw new IllegalArgumentException("Refresh token is missing in the request");
+        }
+
+        String userEmail = jwtService.extractUsername(request.refreshToken());
+
+        if (userEmail != null) {
+            User user = repository.findByEmail(userEmail)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            if (!jwtService.isTokenValid(request.refreshToken(), user)) {
+                throw new RuntimeException("Refresh token is invalid");
+            }
+
+            newAccessToken = jwtService.generateAccessToken(new HashMap<>(), user);
+            newRefreshToken = jwtService.generateRefreshToken(user);
+        }
+
+        return AuthResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .build();
+    }
+
+
 }
+

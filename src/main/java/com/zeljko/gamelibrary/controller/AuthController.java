@@ -2,8 +2,10 @@ package com.zeljko.gamelibrary.controller;
 
 
 import com.zeljko.gamelibrary.requests.AuthRequest;
-import com.zeljko.gamelibrary.requests.AuthResponse;
+import com.zeljko.gamelibrary.requests.RefreshTokenRequest;
+import com.zeljko.gamelibrary.response.AuthResponse;
 import com.zeljko.gamelibrary.requests.RegisterRequest;
+import com.zeljko.gamelibrary.response.RefreshTokenResponse;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +30,12 @@ public class AuthController {
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authenticationService.refreshToken(request));
+    }
+
+
+
 }
