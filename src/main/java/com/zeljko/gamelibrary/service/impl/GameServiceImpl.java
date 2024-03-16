@@ -1,7 +1,8 @@
 package com.zeljko.gamelibrary.service.impl;
 
 
-import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.Game.Game;
+import com.zeljko.gamelibrary.model.Game.Games;
 import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.repository.UserRepository;
@@ -44,16 +45,28 @@ public class GameServiceImpl implements GameService {
                 .uri(uriString)
                 .retrieve()
                 .body(Game.class);
+
+
     }
 
     @Override
-    public List<Game> getGamesBySlug(String gameSlug) {
+    public Games getGamesBySlug(String gameSlug, Double rating) {
         String uriString = rawgApiBase + "?search=" + gameSlug + "&key=" + rawgApiKey;
         log.info("Request URI: {}", uriString);
 
-        // TODO: RETURN LIST OF GAMES BY SLUG
+        var games = restClient.get().uri(uriString)
+                .retrieve()
+                .body(Games.class);
 
-        return null;
+        if (games != null && games.getResults() != null) {
+            List<Game> filteredGames = games.getResults()
+                    .stream()
+                    .filter(game -> game.getRating() > rating)
+                    .toList();
+            games.setResults(filteredGames);
+        }
+
+        return games;
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.zeljko.gamelibrary.controller;
 
 
-import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.Game.Game;
+import com.zeljko.gamelibrary.model.Game.Games;
 import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.service.GameService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,12 +35,16 @@ public class GameController {
     }
 
     @GetMapping("/slug/{gameSlug}")
-    public ResponseEntity<List<Game>> getGamesBySlug(@PathVariable("gameSlug") String gameSlug){
-        List<Game> gameListResponse = gameService.getGamesBySlug(gameSlug);
+    public ResponseEntity<Games> getGamesBySlug(
+            @PathVariable("gameSlug") String gameSlug,
+            @RequestParam(name = "rating", defaultValue = "0") double grade
+    ) {
+        Games gameListResponse = gameService.getGamesBySlug(gameSlug, grade);
         return ResponseEntity.ok(gameListResponse);
     }
 
     @GetMapping("/current-user")
+    @Cacheable(value = "games", key = "#principal")
     public List<Game> getCurrentUserGames(Authentication principal) {
         return gameService.getCurrentUserGames(principal);
     }

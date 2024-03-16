@@ -1,7 +1,7 @@
 package com.zeljko.gamelibrary.dto;
 
 
-import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.Game.Game;
 import com.zeljko.gamelibrary.model.UserCredentials.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

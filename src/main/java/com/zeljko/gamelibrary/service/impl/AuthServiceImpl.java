@@ -1,7 +1,5 @@
 package com.zeljko.gamelibrary.service.impl;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeljko.gamelibrary.requests.AuthRequest;
 import com.zeljko.gamelibrary.requests.RefreshTokenRequest;
 import com.zeljko.gamelibrary.response.AuthResponse;
@@ -9,14 +7,13 @@ import com.zeljko.gamelibrary.requests.RegisterRequest;
 import com.zeljko.gamelibrary.model.UserCredentials.Role;
 import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
-import com.zeljko.gamelibrary.response.RefreshTokenResponse;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 
 import java.util.HashMap;
 

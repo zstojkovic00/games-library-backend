@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.model;
+package com.zeljko.gamelibrary.model.Game;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,6 +9,7 @@ import com.zeljko.gamelibrary.model.UserCredentials.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Getter
@@ -20,7 +21,7 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "games")
-public class Game {
+public class Game implements Serializable {
 
     @Id
     @Column(unique = true)

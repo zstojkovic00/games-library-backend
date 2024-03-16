@@ -1,4 +1,4 @@
-package com.zeljko.gamelibrary.model;
+package com.zeljko.gamelibrary.model.Game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

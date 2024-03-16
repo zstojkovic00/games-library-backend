@@ -1,7 +1,7 @@
 package com.zeljko.gamelibrary.model.UserCredentials;
 
 
-import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.Game.Game;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

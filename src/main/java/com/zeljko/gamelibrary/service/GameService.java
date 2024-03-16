@@ -1,6 +1,7 @@
 package com.zeljko.gamelibrary.service;
 
-import com.zeljko.gamelibrary.model.Game;
+import com.zeljko.gamelibrary.model.Game.Game;
+import com.zeljko.gamelibrary.model.Game.Games;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface GameService {
     void removeGameFromCurrentUser(Long gameId, Authentication principal);
     List<Game> getCurrentUserGames(Authentication principal);
     List<Game> getAllGames();
-    List<Game> getGamesBySlug(String gameSlug);
+    Games getGamesBySlug(String gameSlug, Double grade);
 }
