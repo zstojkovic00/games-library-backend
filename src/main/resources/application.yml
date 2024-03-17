@@ -1,9 +1,16 @@
+server:
+  port: 8080
+  ssl:
+    bundle: "gamelibrary"
+    enabled-protocols: TLSv1.3
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3307/user_security
     username: zeljko
     password: zeljkoo123
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   cache:
     type: redis
     host: localhost
@@ -12,14 +19,30 @@ spring:
       # After the specified time has elapsed, the cache entry is removed
       time-to-live: 60000
     password: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+
   jpa:
     hibernate:
       format_sql: true
       ddl-auto: update
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-server:
-  port: 8080
+#
+# keytool -genkey -alias gamelibrary -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12  -validity 3650
+  ssl:
+    bundle:
+      jks:
+        gamelibrary:
+          key:
+            alias: "gamelibrary"
+          keystore:
+            location: src/main/resources/keystore/certificate.p12
+            password: ip(k;A^82u8Vz.")_
+            type: "PKCS12"
+#      pem:
+#        client:
+#          truststore:
+#            certificate: "/usr/local/share/ca-certificates/certificate.crt"
+
 
 rawg:
   api:

@@ -5,7 +5,6 @@ import com.zeljko.gamelibrary.requests.AuthRequest;
 import com.zeljko.gamelibrary.requests.RefreshTokenRequest;
 import com.zeljko.gamelibrary.response.AuthResponse;
 import com.zeljko.gamelibrary.requests.RegisterRequest;
-import com.zeljko.gamelibrary.response.RefreshTokenResponse;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
