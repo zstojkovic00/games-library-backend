@@ -16,18 +16,16 @@ spring:
     host: localhost
     port: 6379
     redis:
-      # After the specified time has elapsed, the cache entry is removed
+      # After the specified time (ms) has elapsed, the cache entry is removed
       time-to-live: 60000
     password: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
 
   jpa:
     hibernate:
       format_sql: true
-      ddl-auto: update
+      ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-#
-# keytool -genkey -alias gamelibrary -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12  -validity 3650
   ssl:
     bundle:
       jks:

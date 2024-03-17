@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 import java.util.HashMap;
@@ -64,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
 
@@ -76,21 +78,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse refreshToken(RefreshTokenRequest request) {
+    public AuthResponse refreshToken(@RequestHeader String  refreshToken) {
         String newAccessToken = null;
         String newRefreshToken = null;
 
-        if (request == null || request.refreshToken().isEmpty()) {
+        if (refreshToken == null || refreshToken.isEmpty()) {
             throw new IllegalArgumentException("Refresh token is missing in the request");
         }
 
-        String userEmail = jwtService.extractUsername(request.refreshToken());
+        String userEmail = jwtService.extractUsername(refreshToken);
 
         if (userEmail != null) {
             User user = repository.findByEmail(userEmail)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            if (!jwtService.isTokenValid(request.refreshToken(), user)) {
+            if (!jwtService.isTokenValid(refreshToken, user)) {
                 throw new RuntimeException("Refresh token is invalid");
             }
 
