@@ -1,5 +1,8 @@
 package com.zeljko.gamelibrary.service.impl;
 
+import com.zeljko.gamelibrary.model.Token.Token;
+import com.zeljko.gamelibrary.model.Token.TokenType;
+import com.zeljko.gamelibrary.repository.TokenRepository;
 import com.zeljko.gamelibrary.requests.AuthRequest;
 import com.zeljko.gamelibrary.requests.RefreshTokenRequest;
 import com.zeljko.gamelibrary.response.AuthResponse;
@@ -24,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -38,10 +42,10 @@ public class AuthServiceImpl implements AuthService {
                 .role(Role.USER)
                 .build();
 
-        repository.save(user);
-
+        var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(savedUser, jwtToken);
 
         return AuthResponse.builder()
                 .accessToken(jwtToken)
@@ -60,6 +64,8 @@ public class AuthServiceImpl implements AuthService {
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
 
         return AuthResponse.
                 builder().
@@ -88,7 +94,9 @@ public class AuthServiceImpl implements AuthService {
                 throw new RuntimeException("Refresh token is invalid");
             }
 
+            revokeAllUserTokens(user);
             newAccessToken = jwtService.generateAccessToken(new HashMap<>(), user);
+            saveUserToken(user, newAccessToken);
             newRefreshToken = jwtService.generateRefreshToken(user);
         }
 
@@ -96,6 +104,28 @@ public class AuthServiceImpl implements AuthService {
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
                 .build();
+    }
+
+    private void saveUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
     }
 
 

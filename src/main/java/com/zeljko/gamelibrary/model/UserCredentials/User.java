@@ -2,6 +2,7 @@ package com.zeljko.gamelibrary.model.UserCredentials;
 
 
 import com.zeljko.gamelibrary.model.Game.Game;
+import com.zeljko.gamelibrary.model.Token.Token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_games_table",
