@@ -1,8 +1,11 @@
 server:
   port: 8080
   ssl:
-    bundle: "gamelibrary"
-    enabled-protocols: TLSv1.3
+    key-store: src/main/resources/keystore/certificate.p12
+    key-store-password: ip(k;A^82u8Vz.")_
+    key-store-type: pkcs12
+    key-alias: gamelibrary
+    key-password: ip(k;A^82u8Vz.")_
 
 spring:
   datasource:
@@ -26,21 +29,6 @@ spring:
       ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-  ssl:
-    bundle:
-      jks:
-        gamelibrary:
-          key:
-            alias: "gamelibrary"
-          keystore:
-            location: src/main/resources/keystore/certificate.p12
-            password: ip(k;A^82u8Vz.")_
-            type: "PKCS12"
-#      pem:
-#        client:
-#          truststore:
-#            certificate: "/usr/local/share/ca-certificates/certificate.crt"
-
 
 rawg:
   api:
@@ -49,6 +37,6 @@ rawg:
 
 jwt:
   key: ${JWT_KEY}
-  access-token-expiration: 600000 #minute
+  access-token-expiration: 60000 #minute
   refresh-token-expiration: 86400000 #1day
 

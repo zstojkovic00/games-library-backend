@@ -1,7 +1,8 @@
 package com.zeljko.gamelibrary.exception;
 
 
-import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 @ControllerAdvice
@@ -28,11 +31,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response(apiError);
     }
 
-    @ExceptionHandler(JwtException.class)
+    @ExceptionHandler(ExpiredJwtException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    protected ResponseEntity<?> handleJwtExpired(JwtException e){
+    protected ResponseEntity<?> handleJwtExpired(ExpiredJwtException e){
         ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
-        apiError.setMessage(e.getMessage());
+        apiError.setMessage("Your jwt has expired...");
+        return response(apiError);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    protected ResponseEntity<?> handleMalformedJetException(MalformedJwtException e){
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
+        apiError.setMessage("Malformed or empty jwt token");
         return response(apiError);
     }
 
@@ -43,6 +54,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage(e.getMessage());
         return response(apiError);
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<?> handleSQLConstraintViolationException(SQLIntegrityConstraintViolationException e){
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+        apiError.setMessage("Email already exists");
+        return response(apiError);
+    }
+
 
     private ResponseEntity<Object> response(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());

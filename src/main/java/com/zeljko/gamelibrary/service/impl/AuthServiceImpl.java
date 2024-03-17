@@ -12,6 +12,7 @@ import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
 
@@ -31,6 +34,8 @@ public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    @Value("${jwt.access-token-expiration}")
+    private long jwtAccessTokenExpiration;
 
     @Override
     public AuthResponse register(RegisterRequest request) {
@@ -51,6 +56,9 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .expirationDate(LocalDateTime.now()
+                        .plus(jwtAccessTokenExpiration,
+                                ChronoUnit.MILLIS))
                 .build();
     }
 
@@ -73,12 +81,15 @@ public class AuthServiceImpl implements AuthService {
                 builder().
                 accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .expirationDate(LocalDateTime.now()
+                        .plus(jwtAccessTokenExpiration,
+                                ChronoUnit.MILLIS))
                 .build();
 
     }
 
     @Override
-    public AuthResponse refreshToken(@RequestHeader String  refreshToken) {
+    public AuthResponse refreshToken(@RequestHeader String refreshToken) {
         String newAccessToken = null;
         String newRefreshToken = null;
 
@@ -105,6 +116,9 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
+                .expirationDate(LocalDateTime.now()
+                        .plus(jwtAccessTokenExpiration,
+                                ChronoUnit.MILLIS))
                 .build();
     }
 
