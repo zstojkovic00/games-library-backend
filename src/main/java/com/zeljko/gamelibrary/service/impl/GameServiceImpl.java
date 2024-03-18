@@ -10,10 +10,14 @@ import com.zeljko.gamelibrary.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -24,6 +28,8 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final RestClient restClient;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     @Value("${rawg.api.key}")
     private String rawgApiKey;
@@ -31,8 +37,20 @@ public class GameServiceImpl implements GameService {
     public String rawgApiBase;
 
     @Override
-    public List<Game> getAllGames() {
-        return gameRepository.findAll();
+    @Cacheable(value = "gamesCache", key = "#pageSize + '_' + #criteria")
+    public Games getAllGames(String pageSize, String criteria) {
+        String query = createQuery(pageSize, criteria);
+
+        log.info(query);
+
+        String uriString = rawgApiBase + "?key=" + rawgApiKey + query;
+        log.info("Request URI: {}", uriString);
+
+        return restClient.get()
+                .uri(uriString)
+                .retrieve()
+                .body(Games.class);
+
     }
 
     @Override
@@ -95,5 +113,29 @@ public class GameServiceImpl implements GameService {
 
         user.getGames().remove(gameToRemove);
         userRepository.save(user);
+    }
+
+    private static String createQuery(String pageSize, String criteria) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime nextYear = LocalDateTime.now().plusYears(1);
+        LocalDateTime lastYear = LocalDateTime.now().minusYears(1);
+
+        String currentDate = currentTime.format(FORMATTER);
+        String lastYearDate = lastYear.format(FORMATTER);
+        String nextYearDate = nextYear.format(FORMATTER);
+
+        String query = criteria;
+
+        switch (criteria) {
+            case "popular-games" ->
+                    query = "&dates=" + lastYearDate + "," + currentDate + "&ordering=-rating&&page_size=" + pageSize;
+            case "upcoming-games" ->
+                    query = "&dates=" + currentDate + "," + nextYearDate + "&ordering=-added&&page_size=" + pageSize;
+            case "new-games" ->
+                    query = "&dates=" + lastYearDate + "," + currentDate + "&ordering=-released&&page_size=" + pageSize;
+
+            case "best-games" -> query = "&&page_size=" + pageSize;
+        }
+        return query;
     }
 }

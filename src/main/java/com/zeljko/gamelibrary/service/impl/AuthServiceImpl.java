@@ -12,6 +12,7 @@ import com.zeljko.gamelibrary.model.UserCredentials.User;
 import com.zeljko.gamelibrary.repository.UserRepository;
 import com.zeljko.gamelibrary.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository repository;
@@ -36,6 +38,8 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     @Value("${jwt.access-token-expiration}")
     private long jwtAccessTokenExpiration;
+    LocalDateTime expirationDate = LocalDateTime.now()
+            .plus(jwtAccessTokenExpiration, ChronoUnit.MILLIS);
 
     @Override
     public AuthResponse register(RegisterRequest request) {
@@ -51,14 +55,14 @@ public class AuthServiceImpl implements AuthService {
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+
         saveUserToken(savedUser, jwtToken);
+
 
         return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
-                .expirationDate(LocalDateTime.now()
-                        .plus(jwtAccessTokenExpiration,
-                                ChronoUnit.MILLIS))
+                .expirationDate(expirationDate)
                 .build();
     }
 
@@ -77,19 +81,19 @@ public class AuthServiceImpl implements AuthService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
 
-        return AuthResponse.
+        AuthResponse response = AuthResponse.
                 builder().
                 accessToken(jwtToken)
                 .refreshToken(refreshToken)
-                .expirationDate(LocalDateTime.now()
-                        .plus(jwtAccessTokenExpiration,
-                                ChronoUnit.MILLIS))
+                .expirationDate(expirationDate)
                 .build();
+        log.info("Authenticate {}", response.toString());
+        return response;
 
     }
 
     @Override
-    public AuthResponse refreshToken(@RequestHeader String refreshToken) {
+    public AuthResponse refreshToken(String refreshToken) {
         String newAccessToken = null;
         String newRefreshToken = null;
 
@@ -113,13 +117,13 @@ public class AuthServiceImpl implements AuthService {
             newRefreshToken = jwtService.generateRefreshToken(user);
         }
 
-        return AuthResponse.builder()
+        AuthResponse response = AuthResponse.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
-                .expirationDate(LocalDateTime.now()
-                        .plus(jwtAccessTokenExpiration,
-                                ChronoUnit.MILLIS))
+                .expirationDate(expirationDate)
                 .build();
+        log.info("Refresh token {}", response.toString());
+        return response;
     }
 
     private void saveUserToken(User user, String jwtToken) {

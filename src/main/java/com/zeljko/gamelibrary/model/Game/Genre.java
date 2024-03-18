@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "genres")
-public class Genre {
+public class Genre implements Serializable {
 
     @Id
     private long id;

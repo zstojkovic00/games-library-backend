@@ -3,6 +3,7 @@ package com.zeljko.gamelibrary.model.Game;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @AllArgsConstructor
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Games {
+public class Games implements Serializable {
     private int count;
     private String next;
     private String previous;

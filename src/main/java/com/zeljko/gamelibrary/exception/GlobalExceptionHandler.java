@@ -63,7 +63,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response(apiError);
     }
 
-
     private ResponseEntity<Object> response(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }

@@ -29,7 +29,7 @@ public class LogoutServiceImpl implements LogoutHandler {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         jwt = authHeader.substring(7);
@@ -53,9 +53,11 @@ public class LogoutServiceImpl implements LogoutHandler {
             PrintWriter writer = response.getWriter();
             objectMapper.writeValue(writer, responseMap);
             writer.flush();
+
         } catch (IOException e) {
             log.error(e.getMessage());
         }
 
+        log.info("Logout response: {}", response);
     }
 }

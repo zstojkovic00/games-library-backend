@@ -12,6 +12,6 @@ public interface GameService {
     void addGameToUser(Long gameId, Authentication principal);
     void removeGameFromCurrentUser(Long gameId, Authentication principal);
     List<Game> getCurrentUserGames(Authentication principal);
-    List<Game> getAllGames();
+    Games getAllGames(String pageSize, String criteria);
     Games getGamesBySlug(String gameSlug, Double grade);
 }

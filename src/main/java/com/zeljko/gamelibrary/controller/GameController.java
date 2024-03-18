@@ -24,9 +24,13 @@ public class GameController {
     private final GameRepository gameRepository;
 
     @GetMapping
-    public List<Game> getAllGames() {
-        return gameService.getAllGames();
+    public ResponseEntity<Games> getAllGames(@RequestParam(name = "pageSize", defaultValue = "40") String pageSize,
+                                             @RequestParam(name = "criteria", defaultValue = "best-games") String criteria) {
+        Games gameListResponse = gameService.getAllGames(pageSize, criteria);
+        return ResponseEntity.ok(gameListResponse);
     }
+
+
 
     @GetMapping("/{gameId}")
     public ResponseEntity<Game> getGameById(@PathVariable("gameId") Long gameId) {
