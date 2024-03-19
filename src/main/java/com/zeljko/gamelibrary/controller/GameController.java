@@ -7,9 +7,9 @@ import com.zeljko.gamelibrary.repository.GameRepository;
 import com.zeljko.gamelibrary.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +29,6 @@ public class GameController {
         Games gameListResponse = gameService.getAllGames(pageSize, criteria);
         return ResponseEntity.ok(gameListResponse);
     }
-
-
 
     @GetMapping("/{gameId}")
     public ResponseEntity<Game> getGameById(@PathVariable("gameId") Long gameId) {
@@ -60,6 +58,7 @@ public class GameController {
     }
 
     @DeleteMapping("/{gameId}/current-user")
+    @PreAuthorize("hasAuthority('admin:delete')")
     ResponseEntity<String> removeGameFromCurrentUser(@PathVariable("gameId") Long gameId, Authentication principal) {
         gameService.removeGameFromCurrentUser(gameId, principal);
         return ResponseEntity.status(HttpStatus.OK).body("Game is successfully deleted.");

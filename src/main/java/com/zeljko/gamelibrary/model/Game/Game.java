@@ -20,6 +20,7 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
+@ToString
 @Table(name = "games")
 public class Game implements Serializable {
 

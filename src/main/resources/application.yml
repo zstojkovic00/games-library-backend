@@ -37,6 +37,6 @@ rawg:
 
 jwt:
   key: ${JWT_KEY}
-  access-token-expiration: 60000 #minute
+  access-token-expiration: 600000 #60minute
   refresh-token-expiration: 86400000 #1day
 

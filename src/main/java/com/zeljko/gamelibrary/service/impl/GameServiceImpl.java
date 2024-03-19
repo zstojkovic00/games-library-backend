@@ -46,10 +46,12 @@ public class GameServiceImpl implements GameService {
         String uriString = rawgApiBase + "?key=" + rawgApiKey + query;
         log.info("Request URI: {}", uriString);
 
-        return restClient.get()
+        Games games = restClient.get()
                 .uri(uriString)
                 .retrieve()
                 .body(Games.class);
+        log.info("Games: " + games);
+        return games;
 
     }
 

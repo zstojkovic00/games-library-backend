@@ -19,6 +19,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
+@ToString
 @Table(name = "genres")
 public class Genre implements Serializable {
 
